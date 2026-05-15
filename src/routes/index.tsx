@@ -5,7 +5,7 @@ import {
   GraduationCap, Building2, Radio, Smartphone, Building, Settings,
   Wifi, PenTool, Brain, Presentation, Workflow, Globe,
   Monitor, CheckCircle2, User, Mail, Phone, MessageSquare, Send,
-  Linkedin, Twitter, Facebook, Youtube, Award, FileText,
+  Award, FileText, Share2, AtSign, Hash, Play,
 } from "lucide-react";
 import heroImg from "@/assets/hero-circuit.jpg";
 import { Header } from "@/components/site/Header";
