@@ -395,7 +395,6 @@ function Hero() {
                 <div className="font-semibold">Windows &amp; Android</div>
               </div>
             </div>
-           
           </div>
         </div>
       </div>
