@@ -152,6 +152,7 @@ const environments = [
       "Real-time Assessment",
     ],
     img: "https://images.unsplash.com/photo-1497486751825-1233686d5d80?auto=format&fit=crop&w=1200&q=80",
+    //  img: "/img/hero-circuit.jpg",
   },
   {
     key: "meeting",
