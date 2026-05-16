@@ -44,7 +44,7 @@ import { SectionHeading } from "@/components/site/SectionHeading";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Millennium — Smart Technology for Modern Collaboration" },
+      { title: "Millennium" },
       {
         name: "description",
         content:
