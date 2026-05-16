@@ -1,8 +1,16 @@
 {
   "buildCommand": "npm run build",
   "installCommand": "npm install",
-  "outputDirectory": "dist/client",
+  "outputDirectory": "dist",
+  "framework": "other",
   "env": {
     "NODE_ENV": "production"
-  }
+  },
+  "public": "dist/client",
+  "functions": {
+    "api/[[...]]": {
+      "runtime": "nodejs20.x"
+    }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
 }
