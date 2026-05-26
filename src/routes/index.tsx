@@ -207,11 +207,9 @@ const environments = [
 
 // Successful Deployments
 const projectFilters = [
-  "All Projects",
-  "Schools",
+  "Schools | University",
   "Government",
   "Corporate",
-  "Universities",
   "Smart Offices",
 ] as const;
 
@@ -221,7 +219,7 @@ const projects = [
     tag: "45 Smart Classrooms",
     title: "Riverside High School",
     location: "New York, USA",
-    category: "Schools",
+    category: "Schools | University",
     img: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=900&q=80",
   },
   {
@@ -235,13 +233,118 @@ const projects = [
     tag: "20 Lecture Halls",
     title: "State University",
     location: "Boston, USA",
-    category: "Universities",
-    img: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=900&q=80",
+    category: "Schools | University",
+    img: "/img/stateuniversity.webp",
+  },
+  {
+    tag: "Holistic Basic Education",
+    title: "Claret School Center",
+    location: "Quezon City, Philippines",
+    category: "Schools | University",
+    img: "/img/Screenshot 2026-05-26 115250.png",
+  },
+  {
+    tag: "Comprehensive Review Programs",
+    title: "Carl Balita Review Center",
+    location: "NCR, Philippines",
+    category: "Schools | University",
+    img: "/img/carlbalita.png",
+  },
+  {
+    tag: " Quality Education",
+    title: "MCA Montessori School Taguig",
+    location: "Taguig, Philippines",
+    category: "Schools | University",
+    img: "/img/MCA.jpg",
+  },
+  {
+    tag: "Highly Employable Courses",
+    title: "Quezon City University",
+    location: "Quezon City, Philippines",
+    category: "Schools | University",
+    img: "/img/QCU.jpg",
   },
   {
     tag: "Complete AV System",
     title: "City Hall Council",
     location: "Chicago, USA",
+    category: "Government",
+    img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    tag: "National Defense",
+    title: "Armed Forces of the Philippines",
+    location: "Quezon City, Philippines",
+    category: "Government",
+    img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    tag: "Online Public Services",
+    title: "Department of Information and Communications Technology",
+    location: "Quezon City, Philippines",
+    category: "Government",
+    img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    tag: "Environmental Regulations",
+    title: "Department of Environment and Natural Resources",
+    location: "Quezon City, Philippines",
+    category: "Government",
+    img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    tag: "Public Safety & Enforecement",
+    title: "Bureau of Immigration",
+    location: "Metro Manila, Philippines",
+    category: "Government",
+    img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    tag: "Financial and Input Subsidies",
+    title: "Department of Agriculture",
+    location: "Quezon City, Philippines",
+    category: "Government",
+    img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    tag: "Maritime Territorial Defense",
+    title: "PH Navy",
+    location: " Metro Manila, Philippines",
+    category: "Government",
+    img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    tag: "Tactical Air Support",
+    title: "PH Airforce",
+    location: "Pasay City, Philippines",
+    category: "Government",
+    img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    tag: "Graduate Education",
+    title: "Development Academy of the Philippines",
+    location: "Pasig, Philippines",
+    category: "Government",
+    img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    tag: "Peace and Order",
+    title: "Department of the Interior and Local Government",
+    location: "Quezon City, Philippines",
+    category: "Government",
+    img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    tag: "Basic & Emergrency Care",
+    title: "Novaliches General Hospital",
+    location: "Quezon City, Philippines",
+    category: "Government",
+    img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    tag: "Urban Green Space Management",
+    title: "National Parks Development Committee",
+    location: "Metro Manila, Philippines",
     category: "Government",
     img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80",
   },
@@ -259,12 +362,43 @@ const projects = [
     category: "Corporate",
     img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=80",
   },
+  {
+    tag: "Industrial Lubricants",
+    title: "North Block Enterprise",
+    location: "Pasay City, Philippines",
+    category: "Corporate",
+    img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    tag: "Multiple Distict Companies",
+    title: "Spark Industries",
+    location: "Quezon City, Philippines",
+    category: "Corporate",
+    img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    tag: "Studio Rentals",
+    title: "Fire and Ice Studios",
+    location: "Quezon City, Philippines",
+    category: "Corporate",
+    img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=80",
+  },
+  
 ];
 // images below Meet Us at Industry Events
 const events = [
   {
     type: "Exhibition",
     title: "AFP MUSEUM",
+    desc: "Join us at the largest education technology exhibition showcasing our latest smart classroom solutions",
+    date: "June 15-17, 2026",
+    location: "Las Vegas Convention Center",
+    attendees: "5000+",
+    img: "/img/IMG_9178.jpeg",
+  },
+   {
+    type: "Exhibition",
+    title: "AFPCOC GAWARD AWARDS",
     desc: "Join us at the largest education technology exhibition showcasing our latest smart classroom solutions",
     date: "June 15-17, 2026",
     location: "Las Vegas Convention Center",
@@ -328,6 +462,78 @@ const events = [
   {
     type: "Expo",
     title: "AYALA PROPERTIES",
+    desc: "Showcasing smart governance and public-sector digital transformation solutions",
+    date: "August 10-12, 2026",
+    location: "Washington, DC",
+    attendees: "3000+",
+    img: "/img/AYALA.png",
+  },
+  {
+    type: "Expo",
+    title: "PH Pharma & Healthcare Expo (2024)",
+    desc: "Showcasing smart governance and public-sector digital transformation solutions",
+    date: "August 10-12, 2026",
+    location: "Washington, DC",
+    attendees: "3000+",
+    img: "/img/AYALA.png",
+  },
+  {
+    type: "Expo",
+    title: "BREAD OF LIFE QC",
+    desc: "Showcasing smart governance and public-sector digital transformation solutions",
+    date: "August 10-12, 2026",
+    location: "Washington, DC",
+    attendees: "3000+",
+    img: "/img/AYALA.png",
+  },
+  {
+    type: "Expo",
+    title: "INNOVATION AI TECH-TALK",
+    desc: "Showcasing smart governance and public-sector digital transformation solutions",
+    date: "August 10-12, 2026",
+    location: "Washington, DC",
+    attendees: "3000+",
+    img: "/img/AYALA.png",
+  },
+  {
+    type: "Expo",
+    title: "STA IGNACIA TARLAC",
+    desc: "Showcasing smart governance and public-sector digital transformation solutions",
+    date: "August 10-12, 2026",
+    location: "Washington, DC",
+    attendees: "3000+",
+    img: "/img/AYALA.png",
+  },
+  {
+    type: "Golf Tournament",
+    title: "TAGAYTAY HIGHLANDS",
+    desc: "Showcasing smart governance and public-sector digital transformation solutions",
+    date: "August 10-12, 2026",
+    location: "Washington, DC",
+    attendees: "3000+",
+    img: "/img/AYALA.png",
+  },
+  {
+    type: "Expo",
+    title: "TRAVEL SALE EXPO",
+    desc: "Showcasing smart governance and public-sector digital transformation solutions",
+    date: "August 10-12, 2026",
+    location: "Washington, DC",
+    attendees: "3000+",
+    img: "/img/AYALA.png",
+  },
+  {
+    type: "Expo",
+    title: "HALAL EVENT (SAUDI ARABIA)",
+    desc: "Showcasing smart governance and public-sector digital transformation solutions",
+    date: "August 10-12, 2026",
+    location: "Washington, DC",
+    attendees: "3000+",
+    img: "/img/AYALA.png",
+  },
+  {
+    type: "Expo",
+    title: "HALAL EVENT (WORLD TRADE CENTER)",
     desc: "Showcasing smart governance and public-sector digital transformation solutions",
     date: "August 10-12, 2026",
     location: "Washington, DC",
@@ -686,9 +892,8 @@ function Showcase() {
 /* ----------------------------- Portfolio ----------------------------- */
 
 function Portfolio() {
-  const [filter, setFilter] = useState<(typeof projectFilters)[number]>("All Projects");
-  const filtered =
-    filter === "All Projects" ? projects : projects.filter((p) => p.category === filter);
+  const [filter, setFilter] = useState<(typeof projectFilters)[number]>("Schools | University");
+  const filtered = projects.filter((p) => p.category === filter);
   return (
     <section id="installations" className="py-24 border-t border-border">
       <div className="mx-auto max-w-7xl px-6">
