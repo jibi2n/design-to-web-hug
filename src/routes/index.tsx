@@ -234,9 +234,9 @@ const projects = [
   //   ],
   // },
   {
-    tag: "30 Meeting Rooms",
+    tag: "Condominium Complex",
     title: "AVIDA Tower",
-    location: "San Francisco, USA",
+    location: "Quezon City, Philippines",
     category: "Corporate",
     images: [
       "/img/AVIDA (1).jpg", 
@@ -468,9 +468,9 @@ const projects = [
   //   ],
   // },
   {
-    tag: "Automation & Collaboration",
+    tag: "Commercial Development",
     title: "AYALA Corpo One",
-    location: "Seattle, USA",
+    location: "Makati City, Philippines",
     category: "Corporate",
     images: [
       "/img/AYALA (1).jpg",
@@ -480,9 +480,9 @@ const projects = [
     ],
   },
   {
-    tag: "Automation & Collaboration",
+    tag: "Commercial Development",
     title: "AYALA Council Meeting",
-    location: "Seattle, USA",
+    location: "Makati City, Philippines",
     category: "Corporate",
     images: [
       "/img/ACM (1).jpg",
@@ -492,9 +492,9 @@ const projects = [
     ],
   },
   {
-    tag: "Automation & Collaboration",
+    tag: "Commercial Office",
     title: "AYALA Tower One",
-    location: "Seattle, USA",
+    location: "Makati City, Philippines",
     category: "Corporate",
     images: [
       "/img/ATO (1).jpg",
@@ -504,9 +504,9 @@ const projects = [
     ],
   },
   {
-    tag: "Automation & Collaboration",
+    tag: "Membership Sports",
     title: "City Club",
-    location: "Seattle, USA",
+    location: "Makati City, Philippines",
     category: "Corporate",
     images: [
       "/img/CC (1).jpg",
@@ -517,9 +517,9 @@ const projects = [
     ],
   },
   {
-    tag: "Automation & Collaboration",
+    tag: "Commercial Office",
     title: "Suntrust Building",
-    location: "Seattle, USA",
+    location: "Manila, Philippines",
     category: "Corporate",
     images: [
       "/img/SB (1).jpg",
@@ -529,16 +529,16 @@ const projects = [
     ],
   },
   {
-    tag: "Industrial Lubricants",
+    tag: "Product Distributor",
     title: "North Block Enterprise",
-    location: "Pasay City, Philippines",
+    location: "Santa Rosa, Philippines",
     category: "Corporate",
     images: [
       "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=80",
     ],
   },
   {
-    tag: "Multiple Distict Companies",
+    tag: "Medical and Aesthetic Equipment Supplier",
     title: "Spark Industries",
     location: "Quezon City, Philippines",
     category: "Corporate",
@@ -548,7 +548,7 @@ const projects = [
     ],
   },
   {
-    tag: "Studio Rentals",
+    tag: "Rental Space",
     title: "Fire and Ice Studios",
     location: "Quezon City, Philippines",
     category: "Corporate",
@@ -763,21 +763,21 @@ const events = [
     img: "/img/WORLDBEX.jpg",
   },
   {
-    type: "Expo",
+    type: "Confrence",
     title: "WOMEN ECONOMIC FORUM",
-    desc: "Showcasing smart governance and public-sector digital transformation solutions",
+    desc: "Use Millennium smart boards to empower women leaders through highly collaborative, interactive, and engaging economic presentations today!",
     date: "August 10-12, 2026",
-    location: "Washington, DC",
-    attendees: "3000+",
+    location: "Quezon City, Philippines",
+    attendees: "2000+",
     img: "/img/WEF.jpg",
   },
   {
-    type: "Expo",
+    type: "Tour",
     title: "HISTORIC FREDERICKSBURG FOUNDATION INC.",
-    desc: "Showcasing smart governance and public-sector digital transformation solutions",
+    desc: "Use Millennium smart boards to share downtown colonial architecture history through highly engaging, interactive community presentations today!",
     date: "August 10-12, 2026",
-    location: "Washington, DC",
-    attendees: "3000+",
+    location: "Fredericksburg, United States ",
+    attendees: "1000+",
     img: "/img/HFFI.jpg",
   },
 ];
