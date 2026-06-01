@@ -40,6 +40,7 @@ import {
 } from "lucide-react";
 import heroImg from "@/assets/millennium tv.png";
 import { Header } from "@/components/site/Header";
+import { ProjectCard } from "@/components/site/ProjectCard";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import Spline from "@splinetool/react-spline";
 
@@ -573,7 +574,10 @@ const events = [
     date: "June 15-17, 2026",
     location: "Quezon City, Philippines",
     attendees: "5000+",
-    img: "/img/IMG_9178.jpeg",
+    images: [ 
+      "/img/IMG_9178.jpeg",
+      "/img/AFP2.jpg",
+    ],
   },
    {
     type: "Gala Ceremony",
@@ -582,7 +586,7 @@ const events = [
     date: "June 15-17, 2026",
     location: "Quezon City, Philippines",
     attendees: "500+",
-    img: "/img/GAWAD.jpg",
+    images: [ "/img/GAWAD.jpg" ],
   },
   {
     type: "Exposition",
@@ -591,7 +595,7 @@ const events = [
     date: "July 22, 2026",
     location: "Quezon City, Philippines",
     attendees: "3000+",
-    img: "/img/DICT (1).jpg",
+    images: [ "/img/DICT (1).jpg" ],
   },
   {
     type: "Summit",
@@ -600,7 +604,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Manila, Philippines",
     attendees: "2000+",
-    img: "/img/IMMIG1 (3).jpg",
+    images: [ "/img/IMMIG1 (3).jpg" ],
   },
   {
     type: "Conference",
@@ -609,7 +613,7 @@ const events = [
     date: "September 5, 2026",
     location: "Pasig City, Philippines",
     attendees: "5000+",
-    img: "/img/DAP (2).jpg",
+    images: [ "/img/DAP (2).jpg" ],
   },
   {
     type: "Convention",
@@ -618,8 +622,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Quezon City, Philippines",
     attendees: "5000+",
-    img: 
-      "/img/AGRARIAN.jpg",
+    images: [ "/img/AGRARIAN.jpg" ] ,
         
   },
   {
@@ -629,7 +632,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Quezon City, Philippines",
     attendees: "10000+",
-    img: "/img/DepartmentNR (3).jpg",
+    images: [ "/img/DepartmentNR (3).jpg" ],
   },
   {
     type: "Exposition",
@@ -638,7 +641,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Taguig City, Philippines",
     attendees: "5000+",
-    img: "/img/PCCI.jpg",
+    images: [ "/img/PCCI.jpg" ],
   },
   {
     type: "Exhibition",
@@ -647,7 +650,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Cavite, Philippines",
     attendees: "5000+",
-    img: "/img/NAVY (4).jpg",
+    images: [ "/img/NAVY (4).jpg" ],
   },
   {
     type: "Exposition",
@@ -656,7 +659,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Makati City, Philippines",
     attendees: "10000+",
-    img: "/img/AYALA (4).jpg",
+    images: [ "/img/AYALA (4).jpg" ],
   },
   {
     type: "Exposition",
@@ -665,7 +668,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Pasay City, Philippines",
     attendees: "4000+",
-    img: "/img/PHARMA.jpg",
+    images: [ "/img/PHARMA.jpg" ],
   },
   {
     type: "Exposition",
@@ -674,7 +677,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Quezon City, Philippines",
     attendees: "5000+",
-    img: "/img/BL.jpg",
+    images: [ "/img/BL.jpg" ],
   },
    {
     type: "Seminar",
@@ -683,7 +686,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Quezon City, Philippines",
     attendees: "2000+",
-    img: "/img/ETS.jpg",
+    images: [ "/img/ETS.jpg" ],
   },
    
   {
@@ -693,7 +696,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Taguig City, Philippines",
     attendees: "1500+",
-    img: "/img/AYALA.png",
+    images: [ "/img/AYALA.png" ],
   },
   {
     type: "Summit",
@@ -702,7 +705,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Santa Ignacia, Tarlac, Philippines",
     attendees: "2000+",
-    img: "/img/TSI.png",
+    images: [ "/img/TSI.png" ],
   },
   {
     type: "Exposition",
@@ -711,7 +714,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Tagaytay City, Philippines",
     attendees: "3000+",
-    img: "/img/TH.jpg",
+    images: [ "/img/TH.jpg" ],
   },
   {
     type: "Exposition",
@@ -720,7 +723,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Mandaluyong City, Philippines",
     attendees: "10000+",
-    img: "/img/AYALA.png",
+    images: [ "/img/AYALA.png" ],
   },
   {
     type: "Exposition",
@@ -729,7 +732,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Mandaluyong City, Philippines",
     attendees: "10000+",
-    img: "/img/HALAL.jpg",
+    images: [ "/img/HALAL.jpg" ],
   },
   {
     type: "Exposition",
@@ -738,7 +741,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Pasay City, Philippines",
     attendees: "10000+",
-    img: "/img/HALAL2.jpg",
+    images: [ "/img/HALAL2.jpg" ],
   },
   {
     type: "Ceremony",
@@ -747,7 +750,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Manila, Philippines",
     attendees: "1000+",
-    img: "/img/GUSI.jpg",
+    images: [ "/img/GUSI.jpg" ],
   },
   {
     type: "Exposition",
@@ -756,7 +759,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Dasmariñas, Cavite, Philippines",
     attendees: "5000+",
-    img: "/img/CAVITE.jpg",
+    images: [ "/img/CAVITE.jpg" ],
   },
   {
     type: "Exposition",
@@ -765,7 +768,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Washington, DC",
     attendees: "3000+",
-    img: "/img/WORLDBEX.jpg",
+    images: [ "/img/WORLDBEX.jpg" ],
   },
   {
     type: "Conference",
@@ -774,7 +777,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Quezon City, Philippines",
     attendees: "2000+",
-    img: "/img/WEF.jpg",
+    images: [ "/img/WEF.jpg" ],
   },
   {
     type: "Tour",
@@ -783,7 +786,7 @@ const events = [
     date: "August 10-12, 2026",
     location: "Fredericksburg, United States ",
     attendees: "1000+",
-    img: "/img/AYALA.png",
+    images: [ "/img/AYALA.png" ],
   },
 ];
 
@@ -928,7 +931,7 @@ function Hero() {
           </div>
         </div>
 
-        <div className="relative">
+        <div className="relative overflow-hidden">
           <div className="e p-3 relative">
             <img
               src={heroImg}
@@ -1207,30 +1210,6 @@ function Showcase() {
 function Portfolio() {
   const [filter, setFilter] = useState<(typeof projectFilters)[number]>("Schools | University");
 
-  const [activeImages, setActiveImages] = useState<{ [key: string]: number }>({});
-  const [fading, setFading] = useState<{ [key: string]: boolean }>({});
-
-  const cycleImage = (title: string, direction: number, imageCount: number) => {
-    if (fading[title] || imageCount <= 1) return;
-
-    setFading((prev) => ({
-      ...prev,
-      [title]: true,
-    }));
-
-    setTimeout(() => {
-      setActiveImages((prev) => ({
-        ...prev,
-        [title]:
-          ((prev[title] || 0) + direction + imageCount) % imageCount,
-      }));
-      setFading((prev) => ({
-        ...prev,
-        [title]: false,
-      }));
-    }, 180);
-  };
-
   const filtered = projects.filter((p) => p.category === filter);
 
   return (
@@ -1267,63 +1246,9 @@ function Portfolio() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((p) => {
-            const imageIndex = activeImages[p.title] ?? 0;
-            const hasMultipleImages = p.images.length > 1;
-
-            return (
-              <div
-                key={p.title}
-                className="card-surface overflow-hidden group transform-gpu transition duration-300 hover:scale-[1.01]"
-              >
-                <div className="relative overflow-hidden">
-                  <img
-                    src={p.images[imageIndex]}
-                    alt={p.title}
-                    loading="lazy"
-                    className={`w-full aspect-[4/3] object-cover transition-all duration-500 ${
-                      fading[p.title]
-                        ? "opacity-0 blur-sm scale-105"
-                        : "opacity-100 blur-0 scale-100"
-                    }`}
-                  />
-
-                  <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium bg-gradient-brand text-primary-foreground">
-                    {p.tag}
-                  </span>
-
-                  {hasMultipleImages ? (
-                    <div className="absolute inset-x-0 bottom-4 flex justify-center pointer-events-none">
-                      <div className="pointer-events-auto inline-flex items-center gap-3 opacity-0 translate-y-4 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-y-0">
-                        <button
-                          type="button"
-                          aria-label="Previous image"
-                          onClick={() => cycleImage(p.title, -1, p.images.length)}
-                          className="w-11 h-11 rounded-full bg-slate-950/60 border border-white/10 backdrop-blur-xl text-white shadow-[0_12px_30px_rgba(0,0,0,0.25)] transition hover:shadow-[0_0_28px_rgba(255,255,255,0.18)] hover:bg-slate-900/70"
-                        >
-                          <ArrowLeft className="w-5 h-5" />
-                        </button>
-                        <button
-                          type="button"
-                          aria-label="Next image"
-                          onClick={() => cycleImage(p.title, 1, p.images.length)}
-                          className="w-11 h-11 rounded-full bg-slate-950/60 border border-white/10 backdrop-blur-xl text-white shadow-[0_12px_30px_rgba(0,0,0,0.25)] transition hover:shadow-[0_0_28px_rgba(255,255,255,0.18)] hover:bg-slate-900/70"
-                        >
-                          <ArrowRight className="w-5 h-5" />
-                        </button>
-                      </div>
-                    </div>
-                  ) : null}
-                </div>
-                <div className="p-5">
-                  <h3 className="font-semibold text-lg">{p.title}</h3>
-                  <div className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
-                    <MapPin className="w-3.5 h-3.5" /> {p.location}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          {filtered.map((p) => (
+            <ProjectCard key={p.title} project={p} />
+          ))}
         </div>
       </div>
     </StarfieldSection>
@@ -1352,10 +1277,10 @@ function Events() {
             <div key={e.title} className="card-surface overflow-hidden flex flex-col h-full">
               <div className="relative">
                 <img
-                  src={e.img}
-                  alt={e.title}
-                  loading="lazy"
-                  className="w-full aspect-[16/9] object-cover"
+                src={e.images[0]}
+                alt={e.title}
+                loading="lazy"
+                className="w-full aspect-[16/9] object-cover"
                 />
                 <span className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold bg-gradient-brand text-primary-foreground">
                   {e.type}
