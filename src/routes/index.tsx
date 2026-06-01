@@ -1125,14 +1125,17 @@ function Hero() {
         </div>
 
         <div className="relative">
-          <img
-            src={heroImg}
-            alt="Glowing circuit board"
-            width={1280}
-            height={896}
-            className="w-full h-auto block"
-          />
-          <div className="absolute -top-4 -right-4 card-surface px-4 py-3 flex items-center gap-3">
+          <div className="relative p-3 w-full max-w-full">
+            <div className="relative aspect-[16/9] w-full">
+              <img
+                src={heroImg}
+                alt="Glowing circuit board"
+                width={1280}
+                height={896}
+                className="absolute inset-0 w-full h-full object-contain"
+              />
+            </div>
+            <div className="absolute -top-4 -right-4 card-surface px-4 py-3 flex items-center gap-3">
               <div className="w-9 h-9 rounded-lg bg-gradient-brand grid place-items-center">
                 <Hd className="w-4 h-4 text-primary-foreground" />
               </div>
@@ -1308,6 +1311,13 @@ function Solutions() {
 /* ----------------------------- Products ------------------------------ */
 
 function Products() {
+  const { ref: productStatsRef, counts: productCounts } = useCountUpOnVisible([20, 4, 21]);
+  const productMetrics = [
+    { v: `${productCounts[0]}`, l: "Touch Points" },
+    { v: `${productCounts[1]}K`, l: "Resolution" },
+    { v: `${productCounts[2]}+`, l: "Multi-Language Support" },
+  ];
+
   return (
     <StarfieldSection id="products" className="py-24 border-t border-border">
       <div className="mx-auto max-w-7xl px-6">
@@ -1338,12 +1348,8 @@ function Products() {
               <p className="mt-2 text-sm text-muted-foreground">
                 Enterprise-grade interactive display with AI-powered collaboration features
               </p>
-              <div className="mt-6 grid grid-cols-3 gap-4 text-center">
-                {[
-                  { v: "20", l: "Touch Points" },
-                  { v: "4K", l: "Resolution" },
-                  { v: "21+", l: "Multi-Language Support" },
-                ].map((m) => (
+              <div ref={productStatsRef} className="mt-6 grid grid-cols-3 gap-4 text-center">
+                {productMetrics.map((m) => (
                   <div key={m.l}>
                     <div className="text-2xl font-bold text-gradient-brand">{m.v}</div>
                     <div className="text-xs text-muted-foreground mt-1">{m.l}</div>
