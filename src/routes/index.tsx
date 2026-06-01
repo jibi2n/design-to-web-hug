@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
   Sparkles,
   Shield,
   Zap,
+  ArrowLeft,
   ArrowRight,
   Calendar,
   MapPin,
@@ -369,7 +370,7 @@ const projects = [
       "/img/AGRARIAN (1).jpg",
       "/img/AGRARIAN (2).jpg",
       "/img/AGRARIAN (3).jpg",
-      "/img/AGRARIAN (4).jpg",
+      "/img/AGRARIAN.jpg",
    
     ],
   },
@@ -422,6 +423,10 @@ const projects = [
     images: [
       "/img/DAP (1).jpg",
       "/img/DAP (2).jpg",
+      "/img/DAP (3).jpg",
+      "/img/DAP (4).jpg",
+      "/img/DAP (5).jpg",
+      "/img/DAP (6).jpg",
     ],
   },
   {
@@ -614,7 +619,7 @@ const events = [
     location: "Quezon City, Philippines",
     attendees: "5000+",
     img: 
-      "/img/AGRARIAN (1).jpg",
+      "/img/AGRARIAN.jpg",
         
   },
   {
@@ -1203,48 +1208,28 @@ function Portfolio() {
   const [filter, setFilter] = useState<(typeof projectFilters)[number]>("Schools | University");
 
   const [activeImages, setActiveImages] = useState<{ [key: string]: number }>({});
-
-  const [playingSlides, setPlayingSlides] = useState<{ [key: string]: boolean }>({});
-
   const [fading, setFading] = useState<{ [key: string]: boolean }>({});
 
-  useEffect(() => {
-    const intervals: NodeJS.Timeout[] = [];
-
-    Object.keys(playingSlides).forEach((title) => {
-      if (playingSlides[title]) {
-        const project = projects.find((p) => p.title === title);
-
-        if (project && project.images.length > 1) {
-          const interval = setInterval(() => {
-  setFading((prev) => ({
-    ...prev,
-    [title]: true,
-  }));
-
-  setTimeout(() => {
-    setActiveImages((prev) => ({
-      ...prev,
-      [title]:
-        ((prev[title] || 0) + 1) % project.images.length,
-    }));
+  const cycleImage = (title: string, direction: number, imageCount: number) => {
+    if (fading[title] || imageCount <= 1) return;
 
     setFading((prev) => ({
       ...prev,
-      [title]: false,
+      [title]: true,
     }));
-  }, 700);
-}, 2500);
 
-          intervals.push(interval);
-        }
-      }
-    });
-
-    return () => {
-      intervals.forEach(clearInterval);
-    };
-  }, [playingSlides]);
+    setTimeout(() => {
+      setActiveImages((prev) => ({
+        ...prev,
+        [title]:
+          ((prev[title] || 0) + direction + imageCount) % imageCount,
+      }));
+      setFading((prev) => ({
+        ...prev,
+        [title]: false,
+      }));
+    }, 180);
+  };
 
   const filtered = projects.filter((p) => p.category === filter);
 
@@ -1282,38 +1267,63 @@ function Portfolio() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((p) => (
-            <div key={p.title} className="card-surface overflow-hidden group">
-              <div className="relative">
-                <img
-                  src={p.images[activeImages[p.title] || 0]}
-                  alt={p.title}
-                  loading="lazy"
-                  onClick={() => {
-                  setPlayingSlides({
-                  [p.title]: true,
-               });
-          }}
-                 className={`w-full aspect-[4/3] object-cover cursor-pointer group-hover:scale-105 transition-all duration-1000 
-                  ${
-  fading[p.title]
-    ? "opacity-0 blur-md scale-105"
-    : "opacity-100 blur-0 scale-100"
-    }`      
-  } 
-/>
-                <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium bg-gradient-brand text-primary-foreground">
-                  {p.tag}
-                </span>
-              </div>
-              <div className="p-5">
-                <h3 className="font-semibold text-lg">{p.title}</h3>
-                <div className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
-                  <MapPin className="w-3.5 h-3.5" /> {p.location}
+          {filtered.map((p) => {
+            const imageIndex = activeImages[p.title] ?? 0;
+            const hasMultipleImages = p.images.length > 1;
+
+            return (
+              <div
+                key={p.title}
+                className="card-surface overflow-hidden group transform-gpu transition duration-300 hover:scale-[1.01]"
+              >
+                <div className="relative overflow-hidden">
+                  <img
+                    src={p.images[imageIndex]}
+                    alt={p.title}
+                    loading="lazy"
+                    className={`w-full aspect-[4/3] object-cover transition-all duration-500 ${
+                      fading[p.title]
+                        ? "opacity-0 blur-sm scale-105"
+                        : "opacity-100 blur-0 scale-100"
+                    }`}
+                  />
+
+                  <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium bg-gradient-brand text-primary-foreground">
+                    {p.tag}
+                  </span>
+
+                  {hasMultipleImages ? (
+                    <div className="absolute inset-x-0 bottom-4 flex justify-center pointer-events-none">
+                      <div className="pointer-events-auto inline-flex items-center gap-3 opacity-0 translate-y-4 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-y-0">
+                        <button
+                          type="button"
+                          aria-label="Previous image"
+                          onClick={() => cycleImage(p.title, -1, p.images.length)}
+                          className="w-11 h-11 rounded-full bg-slate-950/60 border border-white/10 backdrop-blur-xl text-white shadow-[0_12px_30px_rgba(0,0,0,0.25)] transition hover:shadow-[0_0_28px_rgba(255,255,255,0.18)] hover:bg-slate-900/70"
+                        >
+                          <ArrowLeft className="w-5 h-5" />
+                        </button>
+                        <button
+                          type="button"
+                          aria-label="Next image"
+                          onClick={() => cycleImage(p.title, 1, p.images.length)}
+                          className="w-11 h-11 rounded-full bg-slate-950/60 border border-white/10 backdrop-blur-xl text-white shadow-[0_12px_30px_rgba(0,0,0,0.25)] transition hover:shadow-[0_0_28px_rgba(255,255,255,0.18)] hover:bg-slate-900/70"
+                        >
+                          <ArrowRight className="w-5 h-5" />
+                        </button>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+                <div className="p-5">
+                  <h3 className="font-semibold text-lg">{p.title}</h3>
+                  <div className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
+                    <MapPin className="w-3.5 h-3.5" /> {p.location}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </StarfieldSection>
