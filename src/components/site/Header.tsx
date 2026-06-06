@@ -11,52 +11,34 @@ const nav = [
   { label: "Contact Us", href: "#footer-contact" },
 ];
 
-export function Header() {
+export function Header({
+  setActiveView,
+}: {
+  setActiveView?: React.Dispatch<React.SetStateAction<"home" | "lease" | "demo">>;
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLeaseNowClick = (e: any) => {
     e?.preventDefault?.();
-    const el = document.getElementById("leasing-inquiry-section");
-    if (el) {
-      // scroll with smooth behavior and let the page account for fixed header via CSS scroll-margin-top
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-      try {
-        history.replaceState(null, "", "#leasing-inquiry");
-      } catch {}
-      // dispatch an event after the scroll animation is expected to complete
-      window.setTimeout(() => {
-        window.dispatchEvent(new CustomEvent("openLeasingInquiry"));
-      }, 500);
-    } else {
-      // fallback to contact anchor
-      const contactEl = document.getElementById("contact");
-      contactEl?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    setActiveView?.("lease");
+    try {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch {}
   };
 
   const handleBookDemoClick = (e: any) => {
     e?.preventDefault?.();
-    const el = document.getElementById("leasing-inquiry-section");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-      try {
-        history.replaceState(null, "", "#book-demo");
-      } catch {}
-      window.setTimeout(() => {
-        window.dispatchEvent(new CustomEvent("openBookDemo"));
-      }, 400);
-    } else {
-      const contactEl = document.getElementById("contact");
-      contactEl?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    setActiveView?.("demo");
+    try {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch {}
   };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-background/70 border-b border-border">
       <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2.5">
+        <Link to="/" className="flex items-center gap-2.5" onClick={() => setActiveView?.("home")}>
           <img src={millenniumLogo} alt="Millennium" className="h-24 w-24" />
-          {/* <span className="font-semibold text-lg tracking-tight">Millennium</span> */}
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">

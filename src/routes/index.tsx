@@ -936,6 +936,7 @@ function StarfieldSection({
 }
 
 function Index() {
+  const [activeView, setActiveView] = useState<"home" | "lease" | "demo">("home");
   const [showIntro, setShowIntro] = useState(true);
 
   const [selectedShortTermSize, setSelectedShortTermSize] = useState<"65" | "86" | null>(null);
@@ -1002,27 +1003,51 @@ function Index() {
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,7,18,0.65)_0%,rgba(3,7,18,0.72)_35%,rgba(2,6,23,0.86)_100%)]" />
         </div>
 
-        <Header />
+        <Header setActiveView={setActiveView} />
         <main className="relative z-10 pt-16">
-          <Hero />
-          <Trust />
-          <Solutions />
-          <Products />
-          <Showcase />
-          <Events />
-          <Portfolio />
-          <BookDemo
-            selectedShortTermSize={selectedShortTermSize}
-            setSelectedShortTermSize={setSelectedShortTermSize}
-            selectedMonthlySize={selectedMonthlySize}
-            setSelectedMonthlySize={setSelectedMonthlySize}
-            showShortTermSelector={showShortTermSelector}
-            setShowShortTermSelector={setShowShortTermSelector}
-            showMonthlySelector={showMonthlySelector}
-            setShowMonthlySelector={setShowMonthlySelector}
-            shortTermSelectorRef={shortTermSelectorRef}
-            monthlySelectorRef={monthlySelectorRef}
-          />
+          {activeView === "home" && (
+            <>
+              <Hero />
+              <Trust />
+              <Solutions />
+              <Products />
+              <Showcase />
+              <Events />
+              <Portfolio />
+            </>
+          )}
+
+          {activeView === "lease" && (
+            <ExperienceInnovation
+              mode="lease"
+              selectedShortTermSize={selectedShortTermSize}
+              setSelectedShortTermSize={setSelectedShortTermSize}
+              selectedMonthlySize={selectedMonthlySize}
+              setSelectedMonthlySize={setSelectedMonthlySize}
+              showShortTermSelector={showShortTermSelector}
+              setShowShortTermSelector={setShowShortTermSelector}
+              showMonthlySelector={showMonthlySelector}
+              setShowMonthlySelector={setShowMonthlySelector}
+              shortTermSelectorRef={shortTermSelectorRef}
+              monthlySelectorRef={monthlySelectorRef}
+            />
+          )}
+
+          {activeView === "demo" && (
+            <ExperienceInnovation
+              mode="demo"
+              selectedShortTermSize={selectedShortTermSize}
+              setSelectedShortTermSize={setSelectedShortTermSize}
+              selectedMonthlySize={selectedMonthlySize}
+              setSelectedMonthlySize={setSelectedMonthlySize}
+              showShortTermSelector={showShortTermSelector}
+              setShowShortTermSelector={setShowShortTermSelector}
+              showMonthlySelector={showMonthlySelector}
+              setShowMonthlySelector={setShowMonthlySelector}
+              shortTermSelectorRef={shortTermSelectorRef}
+              monthlySelectorRef={monthlySelectorRef}
+            />
+          )}
         </main>
         <Footer />
       </motion.div>
@@ -1515,9 +1540,10 @@ function Portfolio() {
   );
 }
 
-/* ----------------------------- Book Demo ----------------------------- */
+/* ------------------------- Experience Innovation ------------------------ */
 
-function BookDemo({
+function ExperienceInnovation({
+  mode,
   selectedShortTermSize,
   setSelectedShortTermSize,
   selectedMonthlySize,
@@ -1529,6 +1555,7 @@ function BookDemo({
   shortTermSelectorRef,
   monthlySelectorRef,
 }: {
+  mode: "lease" | "demo";
   selectedShortTermSize: "65" | "86" | null;
   setSelectedShortTermSize: React.Dispatch<React.SetStateAction<"65" | "86" | null>>;
   selectedMonthlySize: "65" | "86" | null;
@@ -1540,8 +1567,6 @@ function BookDemo({
   shortTermSelectorRef: React.RefObject<HTMLDivElement | null>;
   monthlySelectorRef: React.RefObject<HTMLDivElement | null>;
 }) {
-  const [tab, setTab] = useState<"demo" | "lease">("demo");
-  const [isSwitching, setIsSwitching] = useState(false);
   const [termsOpen, setTermsOpen] = useState(false);
   const leaseSectionRef = useRef<HTMLDivElement | null>(null);
   const termsSectionRef = useRef<HTMLDivElement | null>(null);
@@ -1641,44 +1666,11 @@ function BookDemo({
     },
   ];
 
-  useEffect(() => {
-    const activate = (tabName: "lease" | "demo") => {
-      setIsSwitching(true);
-      const el = document.getElementById("leasing-inquiry-section");
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      setTimeout(() => {
-        setTab(tabName);
-        setTimeout(() => setIsSwitching(false), 400);
-      }, 300);
-    };
-
-    const leaseHandler = () => activate("lease");
-    const demoHandler = () => activate("demo");
-
-    window.addEventListener("openLeasingInquiry", leaseHandler as EventListener);
-    window.addEventListener("openBookDemo", demoHandler as EventListener);
-
-    if (typeof window !== "undefined") {
-      if (window.location.hash === "#leasing-inquiry") leaseHandler();
-      if (window.location.hash === "#book-demo") demoHandler();
-    }
-
-    return () => {
-      window.removeEventListener("openLeasingInquiry", leaseHandler as EventListener);
-      window.removeEventListener("openBookDemo", demoHandler as EventListener);
-    };
-  }, []);
-
-  
-
   return (
-  <StarfieldSection id="contact" className="py-24 border-t border-border">
-    <div id="leasing-inquiry-section" style={{ scrollMarginTop: "96px" }} />
-    <div className="absolute inset-0 bg-grid opacity-40" aria-hidden />
-    <div className="relative mx-auto max-w-7xl px-6">
-
-  </div>
-        
+    <StarfieldSection id="contact" className="py-24 border-t border-border">
+      <div id="leasing-inquiry-section" style={{ scrollMarginTop: "96px" }} />
+      <div className="absolute inset-0 bg-grid opacity-40" aria-hidden />
+      <div className="relative mx-auto max-w-7xl px-6">
         <SectionHeading
           chip={
             <>
@@ -1689,235 +1681,207 @@ function BookDemo({
           highlight="Innovation"
           subtitle="Schedule a personalized demonstration or discuss flexible leasing options for your organization"
         />
-
-        <div className="grid lg:grid-cols-2 gap-8 items-start">
-          <div className="space-y-5">
-            <div className="grid grid-cols-2 gap-4">
-              <button
-                onClick={() => setTab("demo")}
-                className={`card-surface p-6 text-center transform-gpu transition-transform duration-300 ease-out ${
-                  tab === "demo"
-                    ? "!bg-gradient-brand !text-primary-foreground border-transparent shadow-glow scale-105"
-                    : ""
-                } ${isSwitching && tab !== "demo" ? "opacity-80 scale-95" : ""}`}
-              >
-                <Calendar className="w-3 h-3 mx-auto" />
-                <div className="mt-3 font-semibold">Book Demo</div>
-                <div className="text-xs opacity-80 mt-1">Live Product Tour</div>
-              </button>
-              <button
-                onClick={() => setTab("lease")}
-                className={`card-surface p-6 text-center transform-gpu transition-transform duration-300 ease-out ${
-                  tab === "lease"
-                    ? "!bg-gradient-brand !text-primary-foreground border-transparent shadow-glow scale-105"
-                    : ""
-                } ${isSwitching && tab !== "lease" ? "opacity-80 scale-95" : ""}`}
-              >
-                <Building2 className="w-6 h-6 mx-auto" />
-                <div className="mt-3 font-semibold">Leasing Inquiry</div>
-                <div className="text-xs opacity-80 mt-1">Flexible Options</div>
-              </button>
-            </div>
-
-            {[
-              {
-                icon: Calendar,
-                title: "Flexible Scheduling",
-                desc: "Choose a time that works best for your team. Virtual or in-person demonstrations available.",
-              },
-              {
-                icon: Building2,
-                title: "Enterprise Solutions",
-                desc: "Tailored packages for educational institutions, corporations, and government agencies.",
-              },
-              {
-                icon: CheckCircle2,
-                title: "Expert Consultation",
-                desc: "Get personalized recommendations from our technology specialists.",
-              },
-            ].map((b) => (
-              <div key={b.title} className="card-surface p-5 flex gap-4">
-                <div className="w-11 h-11 rounded-lg bg-primary/10 grid place-items-center shrink-0">
-                  <b.icon className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <div className="font-semibold">{b.title}</div>
-                  <div className="text-sm text-muted-foreground mt-1">{b.desc}</div>
-                </div>
-              </div>
-            ))}
-
-            <div ref={leaseSectionRef} className="card-surface p-6">
-              <div className="text-sm text-muted-foreground mb-4">Lease Pricing</div>
-
-              <div className="space-y-8">
-                <section>
-                  <h4 className="font-semibold mb-2">SHORT-TERM LEASE (EVENTS / CONFERENCES)</h4>
-                  <p className="text-sm text-muted-foreground mb-4">Ideal for hotels and event organizers</p>
-
-                  <div ref={shortTermSelectorRef} className="relative inline-flex items-center">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setShowShortTermSelector((value) => !value);
-                        setShowMonthlySelector(false);
-                      }}
-                      className="card-surface inline-flex items-center justify-between gap-4 rounded-3xl border border-border px-4 py-3 text-left shadow-none"
-                    >
-                      <div className="flex flex-col">
-                        <span className="text-sm font-semibold text-foreground">
-                          {selectedShortTermSize ? `${selectedShortTermSize} Inches` : "Select Smart Board Size"}
-                        </span>
-                        <span className="text-xs text-muted-foreground">Select Smart Board Size</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">▼</span>
-                    </button>
-
-                    {showShortTermSelector ? (
-                      <div className="card-surface absolute left-full top-1/2 z-20 ml-3 w-auto -translate-y-1/2 border border-border px-3 py-2 shadow-lg">
-                        <div className="flex gap-2">
-                          {shortTermSizes.map((size) => (
-                            <button
-                              key={size.id}
-                              type="button"
-                              onClick={() => {
-                                setSelectedShortTermSize(size.id);
-                                setShowShortTermSelector(false);
-                              }}
-                              className={`rounded-full border px-3 py-2 text-sm font-semibold transition ${
-                                selectedShortTermSize === size.id
-                                  ? "border-primary text-foreground bg-primary/5"
-                                  : "border-border text-muted-foreground bg-background"
-                              }`}
-                            >
-                              {size.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    ) : null}
+        {mode === "lease" ? (
+          <div className="mt-8">
+            <div className="space-y-5">
+              {[
+                {
+                  icon: Calendar,
+                  title: "Flexible Scheduling",
+                  desc: "Choose a time that works best for your team. Virtual or in-person demonstrations available.",
+                },
+                {
+                  icon: Building2,
+                  title: "Enterprise Solutions",
+                  desc: "Tailored packages for educational institutions, corporations, and government agencies.",
+                },
+                {
+                  icon: CheckCircle2,
+                  title: "Expert Consultation",
+                  desc: "Get personalized recommendations from our technology specialists.",
+                },
+              ].map((b) => (
+                <div key={b.title} className="card-surface p-5 flex gap-4">
+                  <div className="w-11 h-11 rounded-lg bg-primary/10 grid place-items-center shrink-0">
+                    <b.icon className="w-5 h-5 text-primary" />
                   </div>
-
-                  {selectedShortTermSize ? (
-                    <motion.div
-                      key={selectedShortTermSize}
-                      initial={{ opacity: 0, y: -8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.25 }}
-                      
-                    >
-                      <table className="w-full min-w-[720px] text-sm border-separate border-spacing-x-4">
-                        <thead>
-                          <tr className="text-xs text-muted-foreground text-left uppercase tracking-[0.03em]">
-                            <th className="whitespace-nowrap px-4 py-3 font-semibold">Unit Size</th>
-                            <th className="whitespace-nowrap px-4 py-3 font-semibold">Daily Rate (5 Hours)</th>
-                            <th className="whitespace-nowrap px-4 py-3 font-semibold">3 Days</th>
-                            <th className="whitespace-nowrap px-4 py-3 font-semibold">7 Days</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-border">
-                          {shortTermSizes
-                            .filter((size) => size.id === selectedShortTermSize)
-                            .map((size) => (
-                              <tr key={size.id}>
-                                <td className="px-4 py-4 font-medium">{size.label}</td>
-                                <td className="px-4 py-4">{size.details.daily}</td>
-                                <td className="px-4 py-4">{size.details.threeDay}</td>
-                                <td className="px-4 py-4">{size.details.sevenDay}</td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
-                    </motion.div>
-                  ) : null}
-                </section>
-
-                <section>
-                  <h4 className="font-semibold mb-2">MONTHLY LEASE (ORGANIZATIONS / OFFICES)</h4>
-                  <p className="text-sm text-muted-foreground mb-4">Enterprise-grade leasing for sustained deployments</p>
-
-                  <div ref={monthlySelectorRef} className="relative inline-flex items-center">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setShowMonthlySelector((value) => !value);
-                        setShowShortTermSelector(false);
-                      }}
-                      className="card-surface inline-flex items-center justify-between gap-4 rounded-3xl border border-border px-4 py-3 text-left shadow-none"
-                    >
-                      <div className="flex flex-col">
-                        <span className="text-sm font-semibold text-foreground">
-                          {selectedMonthlySize ? `${selectedMonthlySize} Inches` : "Select Smart Board Size"}
-                        </span>
-                        <span className="text-xs text-muted-foreground">Select Smart Board Size</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">▼</span>
-                    </button>
-
-                    {showMonthlySelector ? (
-                      <div className="card-surface absolute left-full top-1/2 z-20 ml-3 w-auto -translate-y-1/2 border border-border px-3 py-2 shadow-lg">
-                        <div className="flex gap-2">
-                          {monthlySizes.map((size) => (
-                            <button
-                              key={size.id}
-                              type="button"
-                              onClick={() => {
-                                setSelectedMonthlySize(size.id);
-                                setShowMonthlySelector(false);
-                              }}
-                              className={`rounded-full border px-3 py-2 text-sm font-semibold transition ${
-                                selectedMonthlySize === size.id
-                                  ? "border-primary text-foreground bg-primary/5"
-                                  : "border-border text-muted-foreground bg-background"
-                              }`}
-                            >
-                              {size.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    ) : null}
+                  <div>
+                    <div className="font-semibold">{b.title}</div>
+                    <div className="text-sm text-muted-foreground mt-1">{b.desc}</div>
                   </div>
+                </div>
+              ))}
 
-                  {selectedMonthlySize ? (
-                    <motion.div
-                      key={selectedMonthlySize}
-                      initial={{ opacity: 0, y: -8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.25 }}
-                      
-                    >
-                      <table className="w-full min-w-[720px] text-sm border-separate border-spacing-x-4">
-                        <thead>
-                          <tr className="text-xs text-muted-foreground text-left uppercase tracking-[0.03em]">
-                            <th className="whitespace-nowrap px-4 py-3 font-semibold">Unit Size</th>
-                            <th className="whitespace-nowrap px-4 py-3 font-semibold">Monthly Rate</th>
-                            <th className="whitespace-nowrap px-4 py-3 font-semibold">6 Months Contract</th>
-                            <th className="whitespace-nowrap px-4 py-3 font-semibold">12 Months Contract</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-border">
-                          {monthlySizes
-                            .filter((size) => size.id === selectedMonthlySize)
-                            .map((size) => (
-                              <tr key={size.id}>
-                                <td className="px-4 py-4 font-medium">{size.label}</td>
-                                <td className="px-4 py-4">{size.details.monthly}</td>
-                                <td className="px-4 py-4">{size.details.sixMonth}</td>
-                                <td className="px-4 py-4">{size.details.twelveMonth}</td>
-                              </tr>
+              <div ref={leaseSectionRef} className="card-surface p-6">
+                <div className="text-sm text-muted-foreground mb-4">Lease Pricing</div>
+
+                <div className="space-y-8">
+                  <section>
+                    <h4 className="font-semibold mb-2">SHORT-TERM LEASE (EVENTS / CONFERENCES)</h4>
+                    <p className="text-sm text-muted-foreground mb-4">Ideal for hotels and event organizers</p>
+
+                    <div ref={shortTermSelectorRef} className="relative inline-flex items-center">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowShortTermSelector((value) => !value);
+                          setShowMonthlySelector(false);
+                        }}
+                        className="card-surface inline-flex items-center justify-between gap-4 rounded-3xl border border-border px-4 py-3 text-left shadow-none"
+                      >
+                        <div className="flex flex-col">
+                          <span className="text-sm font-semibold text-foreground">
+                            {selectedShortTermSize ? `${selectedShortTermSize} Inches` : "Select Smart Board Size"}
+                          </span>
+                          <span className="text-xs text-muted-foreground">Select Smart Board Size</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">▼</span>
+                      </button>
+
+                      {showShortTermSelector ? (
+                        <div className="card-surface absolute left-full top-1/2 z-20 ml-3 w-auto -translate-y-1/2 border border-border px-3 py-2 shadow-lg">
+                          <div className="flex gap-2">
+                            {shortTermSizes.map((size) => (
+                              <button
+                                key={size.id}
+                                type="button"
+                                onClick={() => {
+                                  setSelectedShortTermSize(size.id);
+                                  setShowShortTermSelector(false);
+                                }}
+                                className={`rounded-full border px-3 py-2 text-sm font-semibold transition ${
+                                  selectedShortTermSize === size.id
+                                    ? "border-primary text-foreground bg-primary/5"
+                                    : "border-border text-muted-foreground bg-background"
+                                }`}
+                              >
+                                {size.label}
+                              </button>
                             ))}
-                        </tbody>
-                      </table>
-                    </motion.div>
-                  ) : null}
-                </section>
+                          </div>
+                        </div>
+                      ) : null}
+                    </div>
+
+                    {selectedShortTermSize ? (
+                      <motion.div
+                        key={selectedShortTermSize}
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.25 }}
+                      >
+                        <table className="w-full min-w-[720px] text-sm border-separate border-spacing-x-4">
+                          <thead>
+                            <tr className="text-xs text-muted-foreground text-left uppercase tracking-[0.03em]">
+                              <th className="whitespace-nowrap px-4 py-3 font-semibold">Unit Size</th>
+                              <th className="whitespace-nowrap px-4 py-3 font-semibold">Daily Rate (5 Hours)</th>
+                              <th className="whitespace-nowrap px-4 py-3 font-semibold">3 Days</th>
+                              <th className="whitespace-nowrap px-4 py-3 font-semibold">7 Days</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-border">
+                            {shortTermSizes
+                              .filter((size) => size.id === selectedShortTermSize)
+                              .map((size) => (
+                                <tr key={size.id}>
+                                  <td className="px-4 py-4 font-medium">{size.label}</td>
+                                  <td className="px-4 py-4">{size.details.daily}</td>
+                                  <td className="px-4 py-4">{size.details.threeDay}</td>
+                                  <td className="px-4 py-4">{size.details.sevenDay}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </motion.div>
+                    ) : null}
+                  </section>
+
+                  <section>
+                    <h4 className="font-semibold mb-2">MONTHLY LEASE (ORGANIZATIONS / OFFICES)</h4>
+                    <p className="text-sm text-muted-foreground mb-4">Enterprise-grade leasing for sustained deployments</p>
+
+                    <div ref={monthlySelectorRef} className="relative inline-flex items-center">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowMonthlySelector((value) => !value);
+                          setShowShortTermSelector(false);
+                        }}
+                        className="card-surface inline-flex items-center justify-between gap-4 rounded-3xl border border-border px-4 py-3 text-left shadow-none"
+                      >
+                        <div className="flex flex-col">
+                          <span className="text-sm font-semibold text-foreground">
+                            {selectedMonthlySize ? `${selectedMonthlySize} Inches` : "Select Smart Board Size"}
+                          </span>
+                          <span className="text-xs text-muted-foreground">Select Smart Board Size</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">▼</span>
+                      </button>
+
+                      {showMonthlySelector ? (
+                        <div className="card-surface absolute left-full top-1/2 z-20 ml-3 w-auto -translate-y-1/2 border border-border px-3 py-2 shadow-lg">
+                          <div className="flex gap-2">
+                            {monthlySizes.map((size) => (
+                              <button
+                                key={size.id}
+                                type="button"
+                                onClick={() => {
+                                  setSelectedMonthlySize(size.id);
+                                  setShowMonthlySelector(false);
+                                }}
+                                className={`rounded-full border px-3 py-2 text-sm font-semibold transition ${
+                                  selectedMonthlySize === size.id
+                                    ? "border-primary text-foreground bg-primary/5"
+                                    : "border-border text-muted-foreground bg-background"
+                                }`}
+                              >
+                                {size.label}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      ) : null}
+                    </div>
+
+                    {selectedMonthlySize ? (
+                      <motion.div
+                        key={selectedMonthlySize}
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.25 }}
+                      >
+                        <table className="w-full min-w-[720px] text-sm border-separate border-spacing-x-4">
+                          <thead>
+                            <tr className="text-xs text-muted-foreground text-left uppercase tracking-[0.03em]">
+                              <th className="whitespace-nowrap px-4 py-3 font-semibold">Unit Size</th>
+                              <th className="whitespace-nowrap px-4 py-3 font-semibold">Monthly Rate</th>
+                              <th className="whitespace-nowrap px-4 py-3 font-semibold">6 Months Contract</th>
+                              <th className="whitespace-nowrap px-4 py-3 font-semibold">12 Months Contract</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-border">
+                            {monthlySizes
+                              .filter((size) => size.id === selectedMonthlySize)
+                              .map((size) => (
+                                <tr key={size.id}>
+                                  <td className="px-4 py-4 font-medium">{size.label}</td>
+                                  <td className="px-4 py-4">{size.details.monthly}</td>
+                                  <td className="px-4 py-4">{size.details.sixMonth}</td>
+                                  <td className="px-4 py-4">{size.details.twelveMonth}</td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </motion.div>
+                    ) : null}
+                  </section>
+                </div>
               </div>
             </div>
           </div>
-
+        ) : (
           <form
-            className="card-surface p-7 space-y-5"
+            className="card-surface p-7 space-y-5 mt-8"
             onSubmit={(e) => {
               e.preventDefault();
               alert("Thanks! We'll be in touch shortly.");
@@ -1959,80 +1923,67 @@ function BookDemo({
               />
             </div>
 
-            {tab === "demo" ? (
-              <button
-                type="submit"
-                className="btn-primary w-full"
-                onClick={() => {
-                  closeAllDropdowns();
-                  setTermsOpen(false);
-                }}
-              >
-                Schedule Demo <Send className="w-4 h-4" />
-              </button>
-            ) : (
-              <a
-                href="https://connectme-e783f.web.app/"
-                className="btn-primary w-full inline-flex items-center justify-center"
-                onClick={() => {
-                  closeAllDropdowns();
-                  setTermsOpen(false);
-                }}
-              >
-                Request Leasing Info <Send className="w-4 h-4" />
-              </a>
-            )}
+            <button
+              type="submit"
+              className="btn-primary w-full"
+              onClick={() => {
+                closeAllDropdowns();
+                setTermsOpen(false);
+              }}
+            >
+              Schedule Demo <Send className="w-4 h-4" />
+            </button>
 
             <p className="text-xs text-center text-muted-foreground">
               By submitting this form, you agree to our privacy policy and terms of service.
             </p>
           </form>
+        )}
 
-          <div ref={termsSectionRef} className="lg:col-span-2">
-  <div className="card-surface p-6 mt-6 rounded-3xl border border-border">
-    <Accordion
-      type="single"
-      collapsible
-      value={termsOpen ? "terms" : ""}
-      onValueChange={(value) => setTermsOpen(value === "terms")}
-    >
-      <AccordionItem value="terms" className="border-0">
-        <AccordionTrigger className="w-full rounded-3xl p-6 text-left hover:no-underline [&>svg]:hidden">
-          <div className="flex w-full flex-col gap-4">
-            <div className="space-y-2">
-              <div className="text-sm font-semibold text-foreground">
-                TERMS AND CONDITIONS
-              </div>
-              <p className="text-sm text-muted-foreground max-w-3xl">
-                Review the booking and payment policies before submitting your inquiry.
-              </p>
-            </div>
+            <div ref={termsSectionRef} className="mt-6">
+              <div className="card-surface p-6 mt-6 rounded-3xl border border-border">
+                <Accordion
+                  type="single"
+                  collapsible
+                  value={termsOpen ? "terms" : ""}
+                  onValueChange={(value) => setTermsOpen(value === "terms")}
+                >
+                  <AccordionItem value="terms" className="border-0">
+                    <AccordionTrigger className="w-full rounded-3xl p-6 text-left hover:no-underline [&>svg]:hidden">
+                      <div className="flex w-full flex-col gap-4">
+                        <div className="space-y-2">
+                          <div className="text-sm font-semibold text-foreground">TERMS AND CONDITIONS</div>
+                          <p className="text-sm text-muted-foreground max-w-3xl">
+                            Review the booking and payment policies before submitting your inquiry.
+                          </p>
+                        </div>
 
-            <div className="text-right text-sm font-semibold text-primary">
-              {termsOpen ? "Show less" : "Read more..."}
-            </div>
-          </div>
-        </AccordionTrigger>
+                        <div className="text-right text-sm font-semibold text-primary">
+                          {termsOpen ? "Show less" : "Read more..."}
+                        </div>
+                      </div>
+                    </AccordionTrigger>
 
-        <AccordionContent className="mt-4 border-t border-border pt-4 text-sm text-muted-foreground space-y-4 max-h-[52vh] overflow-y-auto pr-2">
-                    <div>
-                      <p className="font-semibold text-foreground mb-3">BOOKING STEPS:</p>
-                      <div className="ml-4 space-y-3">
-                        <p>
-                          <span className="font-semibold text-foreground">
-                            A. Four ways to book at DigiParc (Digital Events Place @ The PARC)
-                          </span>
-                        </p>
-                        <ul className="list-decimal list-inside space-y-2 ml-2">
-                          <li>
-                            Fill out our online reservation form. <a href="http://DigiPARC.globaltronics.net" className="text-blue-400 hover:underline">http://DigiPARC.globaltronics.net</a>
-                          </li>
-                          <li>
-                            Contact our operations team through the DigiPARC phones:
-                            <ul className="list-disc list-inside ml-4 mt-1">
-                              <li>
-                                Mobile number - <span className="text-blue-400">0998 - 5405370</span> Attention: Sean
-                              </li>
+                    <AccordionContent className="mt-4 border-t border-border pt-4 text-sm text-muted-foreground space-y-4 max-h-[52vh] overflow-y-auto pr-2">
+                      {/* Terms content preserved unchanged */}
+                      <div>
+                        <p className="font-semibold text-foreground mb-3">BOOKING STEPS:</p>
+                        <div className="ml-4 space-y-3">
+                          <p>
+                            <span className="font-semibold text-foreground">
+                              A. Four ways to book at DigiParc (Digital Events Place @ The PARC)
+                            </span>
+                          </p>
+                          <ul className="list-decimal list-inside space-y-2 ml-2">
+                            <li>
+                              Fill out our online reservation form. <a href="http://DigiPARC.globaltronics.net" className="text-blue-400 hover:underline">http://DigiPARC.globaltronics.net</a>
+                            </li>
+                            <li>
+                              Contact our operations team through the DigiPARC phones:
+                              <ul className="list-disc list-inside ml-4 mt-1">
+                                <li>
+                                  Mobile number - <span className="text-blue-400">0998 - 5405370</span> Attention: Sean
+                                </li>
                               <li>
                                 Landline - <span className="text-blue-400">(02) 8350 - 6356</span> Attention: Bayani or Joey
                               </li>
@@ -2112,6 +2063,7 @@ function BookDemo({
         </div>
       </div>
     </StarfieldSection>
+    
   );
 }
 
