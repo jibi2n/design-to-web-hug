@@ -876,9 +876,7 @@ function EventCard({ event }: { event: (typeof events)[number] }) {
             <MapPin className="w-4 h-4 text-primary" /> {event.location}
           </div>
            </div>
-             <div>
-           </div>
-          </div>
+      </div>
     </div>
   );
 }
@@ -1570,6 +1568,18 @@ function ExperienceInnovation({
   const [termsOpen, setTermsOpen] = useState(false);
   const leaseSectionRef = useRef<HTMLDivElement | null>(null);
   const termsSectionRef = useRef<HTMLDivElement | null>(null);
+  // Leasing form state
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [date, setDate] = useState("");
+  const [address, setAddress] = useState("");
+  const [leaseType, setLeaseType] = useState<"short" | "monthly" | "">("");
+  const [boardSize, setBoardSize] = useState<"65" | "86" | "">("");
+  const [packageOption, setPackageOption] = useState("");
+  const [termsChecked, setTermsChecked] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const closeAllDropdowns = () => {
     setShowShortTermSelector(false);
@@ -1623,6 +1633,54 @@ function ExperienceInnovation({
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [termsOpen]);
+
+  // Sync pricing selectors into the inquiry form
+  useEffect(() => {
+    if (selectedShortTermSize) {
+      setBoardSize(selectedShortTermSize);
+      setLeaseType("short");
+    }
+  }, [selectedShortTermSize]);
+
+  useEffect(() => {
+    if (selectedMonthlySize) {
+      setBoardSize(selectedMonthlySize);
+      setLeaseType("monthly");
+    }
+  }, [selectedMonthlySize]);
+
+  function getEstimatedPrice() {
+    if (!leaseType || !boardSize || !packageOption) return "—";
+    if (leaseType === "short") {
+      const size = shortTermSizes.find((s) => s.id === boardSize);
+      if (!size) return "—";
+      if (packageOption.includes("Daily")) return size.details.daily;
+      if (packageOption.includes("3 Days")) return size.details.threeDay;
+      if (packageOption.includes("7 Days")) return size.details.sevenDay;
+    }
+    if (leaseType === "monthly") {
+      const size = monthlySizes.find((s) => s.id === boardSize);
+      if (!size) return "—";
+      if (packageOption.includes("6 Months")) return size.details.sixMonth;
+      if (packageOption.includes("12 Months")) return size.details.twelveMonth;
+      return size.details.monthly;
+    }
+    return "—";
+  }
+
+  function isFormValid() {
+    return (
+      fullName.trim().length > 0 &&
+      /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) &&
+      phone.trim().length > 0 &&
+      date.trim().length > 0 &&
+      address.trim().length > 0 &&
+      leaseType.length > 0 &&
+      boardSize.length > 0 &&
+      packageOption.length > 0 &&
+      termsChecked
+    );
+  }
 
   const shortTermSizes = [
     {
@@ -1876,6 +1934,156 @@ function ExperienceInnovation({
                     ) : null}
                   </section>
                 </div>
+              </div>
+
+              {/* Leasing Inquiry Form */}
+              <div className="card-surface p-6 mt-6">
+                <div className="text-sm text-muted-foreground mb-4">Leasing Inquiry Form</div>
+
+                {!submitted ? (
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      const nextErrors: Record<string, string> = {};
+                      if (!fullName.trim()) nextErrors.fullName = "Full name is required.";
+                      if (!email.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) nextErrors.email = "Valid email is required.";
+                      if (!phone.trim()) nextErrors.phone = "Phone number is required.";
+                      if (!date.trim()) nextErrors.date = "Date is required.";
+                      if (!address.trim()) nextErrors.address = "Full address is required.";
+                      if (!leaseType) nextErrors.leaseType = "Lease type is required.";
+                      if (!boardSize) nextErrors.boardSize = "Smart board size is required.";
+                      if (!packageOption) nextErrors.packageOption = "Please select a package.";
+                      if (!termsChecked) nextErrors.terms = "You must agree to the terms.";
+
+                      setErrors(nextErrors);
+
+                      if (Object.keys(nextErrors).length === 0) {
+                        setSubmitted(true);
+                        // TODO: wire to backend API
+                      }
+                    }}
+                    className="space-y-4"
+                  >
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm font-medium flex items-center gap-2">
+                          <User className="w-4 h-4 text-primary" /> Full Name
+                        </label>
+                        <input value={fullName} onChange={(e) => setFullName(e.target.value)} className="mt-2 w-full bg-input border border-border rounded-lg px-4 py-3 text-sm" />
+                        {errors.fullName ? <div className="text-xs text-red-400 mt-1">{errors.fullName}</div> : null}
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium flex items-center gap-2">
+                          <Mail className="w-4 h-4 text-primary" /> Email Address
+                        </label>
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-2 w-full bg-input border border-border rounded-lg px-4 py-3 text-sm" />
+                        {errors.email ? <div className="text-xs text-red-400 mt-1">{errors.email}</div> : null}
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm font-medium flex items-center gap-2">
+                          <Phone className="w-4 h-4 text-primary" /> Phone Number
+                        </label>
+                        <input value={phone} onChange={(e) => setPhone(e.target.value)} className="mt-2 w-full bg-input border border-border rounded-lg px-4 py-3 text-sm" />
+                        {errors.phone ? <div className="text-xs text-red-400 mt-1">{errors.phone}</div> : null}
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-primary" /> Date <span className="text-xs text-muted-foreground ml-2">(DD/MM/YYYY)</span>
+                        </label>
+                        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="mt-2 w-full bg-input border border-border rounded-lg px-4 py-3 text-sm" />
+                        {errors.date ? <div className="text-xs text-red-400 mt-1">{errors.date}</div> : null}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium">Full Address</label>
+                      <textarea rows={3} value={address} onChange={(e) => setAddress(e.target.value)} className="mt-2 w-full bg-input border border-border rounded-lg px-4 py-3 text-sm resize-none" />
+                      {errors.address ? <div className="text-xs text-red-400 mt-1">{errors.address}</div> : null}
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm font-medium">Lease Type</label>
+                        <select value={leaseType} onChange={(e) => { const v = e.target.value as "short" | "monthly" | ""; setLeaseType(v); setPackageOption(""); }} className="mt-2 w-full bg-input border border-border rounded-lg px-4 py-3 text-sm">
+                          <option value="">Select lease type</option>
+                          <option value="short">Short-Term Lease (Events / Conferences)</option>
+                          <option value="monthly">Monthly Lease (Organizations / Offices)</option>
+                        </select>
+                        {errors.leaseType ? <div className="text-xs text-red-400 mt-1">{errors.leaseType}</div> : null}
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium">Smart Board Size</label>
+                        <select value={boardSize} onChange={(e) => setBoardSize(e.target.value as "65" | "86" | "")} className="mt-2 w-full bg-input border border-border rounded-lg px-4 py-3 text-sm">
+                          <option value="">Select size</option>
+                          <option value="65">65 Inches</option>
+                          <option value="86">86 Inches</option>
+                        </select>
+                        {errors.boardSize ? <div className="text-xs text-red-400 mt-1">{errors.boardSize}</div> : null}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium">{leaseType === "monthly" ? "Contract Duration" : "Package"}</label>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {leaseType === "monthly" ? (
+                          [
+                            { id: "monthly_rate", label: "Monthly Rate" },
+                            { id: "6_months", label: "6 Months Contract" },
+                            { id: "12_months", label: "12 Months Contract" },
+                          ].map((p) => (
+                            <button key={p.id} type="button" onClick={() => setPackageOption(p.label)} className={`rounded-full border px-3 py-2 text-sm font-semibold transition ${packageOption === p.label ? "border-primary text-foreground bg-primary/5" : "border-border text-muted-foreground bg-background"}`}>
+                              {p.label}
+                            </button>
+                          ))
+                        ) : (
+                          [
+                            { id: "daily", label: "Daily Rate (5 Hours)" },
+                            { id: "3_days", label: "3 Days" },
+                            { id: "7_days", label: "7 Days" },
+                          ].map((p) => (
+                            <button key={p.id} type="button" onClick={() => setPackageOption(p.label)} className={`rounded-full border px-3 py-2 text-sm font-semibold transition ${packageOption === p.label ? "border-primary text-foreground bg-primary/5" : "border-border text-muted-foreground bg-background"}`}>
+                              {p.label}
+                            </button>
+                          ))
+                        )}
+                      </div>
+                      {errors.packageOption ? <div className="text-xs text-red-400 mt-1">{errors.packageOption}</div> : null}
+                    </div>
+
+                    <div className="card-surface p-4 rounded-lg border border-border">
+                      <div className="font-semibold text-sm mb-2">LEASE SUMMARY</div>
+                      <div className="text-sm text-muted-foreground">
+                        <div>Lease Type: <span className="text-foreground font-medium">{leaseType === "short" ? "Short-Term Lease" : leaseType === "monthly" ? "Monthly Lease" : "—"}</span></div>
+                        <div>Display Size: <span className="text-foreground font-medium">{boardSize ? `${boardSize} Inches` : "—"}</span></div>
+                        <div>Selected Package: <span className="text-foreground font-medium">{packageOption || "—"}</span></div>
+                        <div>Estimated Price: <span className="text-foreground font-medium">{getEstimatedPrice()}</span></div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <input id="terms_agree" type="checkbox" checked={termsChecked} onChange={(e) => setTermsChecked(e.target.checked)} />
+                      <label htmlFor="terms_agree" className="text-sm">I have read and agree to the Terms and Conditions.</label>
+                    </div>
+                    {errors.terms ? <div className="text-xs text-red-400 mt-1">{errors.terms}</div> : null}
+
+                    <button type="submit" disabled={!isFormValid()} className={`btn-primary w-full ${!isFormValid() ? "opacity-60 cursor-not-allowed" : ""}`}>
+                      REQUEST LEASE QUOTATION
+                    </button>
+                  </form>
+                ) : (
+                  <div className="p-6 text-center">
+                    <div className="text-2xl font-bold mb-3">Thank you!</div>
+                    <div className="text-sm text-muted-foreground">Your lease quotation request has been submitted successfully.
+                      <div className="mt-3">Our team will contact you shortly regarding your leasing requirements.</div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -2187,7 +2395,7 @@ function Footer() {
         </div>
 
         <div className="mt-10 pt-8 border-t border-border flex flex-col md:flex-row justify-between gap-4 text-sm text-muted-foreground">
-          <div>© 2026 Millennium Technology Solutions. All rights reserved.</div>
+          <div>© 2026 Millennium Dynamic Touch Panel. All rights reserved.</div>
           <div className="flex gap-6">
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>
